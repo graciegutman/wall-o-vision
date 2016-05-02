@@ -1,19 +1,11 @@
-from PIL import Image
-from pylab import array, uint8
-import os
+import numpy as np
+import cv2
 
-def to_grayscale(filepath):
-    return Image.open(filepath).convert('L')
-
-
-def get_img_list(dirpath, extension):
-    img_list = []
-    for f in os.listdir(dirpath):
-        if f.endswith(extension):
-            img_list.append(os.path.join(dirpath, f))
-    return img_list
-
-
-def resize(img_array, width, height):
-    img = Image.fromarray(uint8(img_array))
-    return array(img.resize((width, height)))
+def open_gui(img, winname='image'):
+    cv2.imshow(winname,img)
+    k = cv2.waitKey(0) & 0xFF
+    if k == 27:         # wait for ESC key to exit
+        cv2.destroyAllWindows()
+    elif k == ord('s'): # wait for 's' key to save and exit
+        cv2.imwrite(save_path,img)
+        cv2.destroyAllWindows()
